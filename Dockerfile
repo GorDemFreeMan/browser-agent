@@ -1,34 +1,11 @@
-FROM python:3.11-slim
+# Use Playwright official base image (has all deps pre-installed)
+FROM mcr.microsoft.com/playwright/python:v1.42.0-jammy
 
 WORKDIR /app
-
-# Install minimal dependencies for Playwright (no font issues)
-RUN apt-get update && apt-get install -y \
-    wget \
-    gnupg \
-    ca-certificates \
-    libglib2.0-0 \
-    libnss3 \
-    libnspr4 \
-    libdbus-1-3 \
-    libdrm2 \
-    libgbm1 \
-    libxkbcommon0 \
-    libxcomposite1 \
-    libxdamage1 \
-    libxrandr2 \
-    libasound2 \
-    && rm -rf /var/lib/apt/lists/*
 
 # Copy requirements first for caching
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
-
-# Install Playwright browsers (no deps, use bundled)
-RUN playwright install chromium --with-deps && \
-    playwright install firefox --with-deps || \
-    playwright install chromium && \
-    playwright install firefox
 
 # Copy application code
 COPY . .
