@@ -98,12 +98,12 @@ async def analyze_url(url: str, prompt: str = "Describe what you see on this web
     
     This is a convenience endpoint that combines /screenshot and /analyze
     """
-    from .browser import get_browser
+    from app.browser import get_browser
     
     try:
         # First take screenshot
-        browser = await get_browser()
-        page = await browser.get_page()
+        browser_service = await get_browser()
+        page = await browser_service.get_page()
         
         try:
             await page.goto(url, wait_until="domcontentloaded", timeout=30000)

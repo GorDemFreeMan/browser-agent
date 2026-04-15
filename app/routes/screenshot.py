@@ -23,11 +23,11 @@ class ScreenshotResponse(BaseModel):
 @router.post("/screenshot", response_model=ScreenshotResponse)
 async def take_screenshot(request: ScreenshotRequest):
     """Take screenshot of URL"""
-    from .browser import get_browser
+    from app.browser import get_browser
     
     try:
-        browser = await get_browser()
-        page = await browser.get_page()
+        browser_service = await get_browser()
+        page = await browser_service.get_page()
         
         try:
             await page.goto(request.url, wait_until="domcontentloaded", timeout=30000)

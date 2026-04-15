@@ -37,11 +37,11 @@ async def browse(request: BrowseRequest):
     - click: Click element by selector
     - type: Type text into element
     """
-    from .browser import get_browser
+    from app.browser import get_browser
     
     try:
-        browser = await get_browser()
-        page = await browser.get_page()
+        browser_service = await get_browser()
+        page = await browser_service.get_page()
         
         try:
             # Navigate to URL
@@ -84,11 +84,11 @@ async def browse(request: BrowseRequest):
 @router.post("/click")
 async def click(url: str, selector: str):
     """Click element on page"""
-    from .browser import get_browser
+    from app.browser import get_browser
     
     try:
-        browser = await get_browser()
-        page = await browser.get_page()
+        browser_service = await get_browser()
+        page = await browser_service.get_page()
         
         try:
             await page.goto(url, wait_until="domcontentloaded", timeout=30000)
@@ -104,11 +104,11 @@ async def click(url: str, selector: str):
 @router.post("/type")
 async def type_text(url: str, selector: str, text: str):
     """Type text into element"""
-    from .browser import get_browser
+    from app.browser import get_browser
     
     try:
-        browser = await get_browser()
-        page = await browser.get_page()
+        browser_service = await get_browser()
+        page = await browser_service.get_page()
         
         try:
             await page.goto(url, wait_until="domcontentloaded", timeout=30000)
