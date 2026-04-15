@@ -1,10 +1,12 @@
-# Use Playwright official base image (Ubuntu Jammy)
-FROM mcr.microsoft.com/playwright/python:v1.42.0-jammy
+FROM python:3.11-slim
 
 WORKDIR /app
 
-# Install browsers (playwright is pre-installed in this image)
-RUN playwright install chromium firefox
+# Install Playwright and dependencies
+RUN pip install --no-cache-dir playwright==1.42.0 && \
+    playwright install chromium && \
+    playwright install firefox && \
+    playwright install-deps chromium
 
 # Copy requirements
 COPY requirements.txt .
